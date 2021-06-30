@@ -69,14 +69,14 @@ public class LoggerData { // Aspect class
 		logger.info("Report generated at time {}",date);
 	}
 	
-	// Around Advice
-	@Around("execution(* com.infy.service.EmployeeServiceImpl.getAllEmployees(..))")
-	public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable{
-		System.out.println("Before proceeding part of the Around Advice.");
-		Object emp = joinPoint.proceed();
-		System.out.println("After proceeding part of the Around advice.");
-		return emp;
-	}
+//	// Around Advice
+//	@Around("execution(* com.infy.service.EmployeeServiceImpl.getAllEmployees(..))")
+//	public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable{
+//		System.out.println("Before proceeding part of the Around Advice.");
+//		Object emp = joinPoint.proceed();
+//		System.out.println("After proceeding part of the Around advice.");
+//		return emp;
+//	}
 	
 	
 	
