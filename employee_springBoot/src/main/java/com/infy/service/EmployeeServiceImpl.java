@@ -17,7 +17,6 @@ import com.infy.dto.EmployeeDTO;
 import com.infy.repository.EmployeeRepository;
 
 @Service("employeeService")
-//@Scope("prototype")
 public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private EmployeeRepository repository;
@@ -57,13 +56,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 	}
 	
-	// pagination method
 	@Override
 	public Page<Employee> findAll(Pageable page) {
 		return repository.findAll(page);
 	}
 
-	// sorting method
 	@Override
 	public List<Employee> findAll(Sort sort) {
 		return repository.findAll(sort);

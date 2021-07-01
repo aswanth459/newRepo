@@ -36,28 +36,24 @@ public class Client implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		EmployeeDTO e1 = new EmployeeDTO(101, "Thor", "Electrical", "Asguard", null);
-		EmployeeDTO e2 = new EmployeeDTO(102, "CaptainAmerica", "Physical", "Earth", null);
-		EmployeeDTO e3 = new EmployeeDTO(103, "IronMan", "Science", "Earth", null);
-		EmployeeDTO e4 = new EmployeeDTO(104, "Thanos", "Mental", "Titan", null);
-		EmployeeDTO e5 = new EmployeeDTO(105, "Ajay", "DGTL", "Mysore", null);
-		EmployeeDTO e6 = new EmployeeDTO(105, "Kartik", "DPM", "Banglore", null);
+		EmployeeDTO emp1 = new EmployeeDTO(1, "Thor", "Electrical", "Asguard", "Asguard");
+		EmployeeDTO emp2 = new EmployeeDTO(2, "CaptainAmerica", "Physical", "Sokovia", "Earth");
+		EmployeeDTO emp3 = new EmployeeDTO(3, "IronMan", "Science", "NewYork", "Earth");
+		EmployeeDTO emp4 = new EmployeeDTO(4, "Thanos", "Mental", "Titan", "Titan");
 		
-		service.addEmployee(e1);
-		service.addEmployee(e2);
-		service.addEmployee(e3);
-		service.addEmployee(e4);
-		service.addEmployee(e5);
-		service.addEmployee(e6);
-		System.out.println("Employees are successfully added.");
+		service.addEmployee(emp1);
+		service.addEmployee(emp2);
+		service.addEmployee(emp3);
+		service.addEmployee(emp4);
 		
-		// pagination and sorting operations
-		System.out.println("\n****************");
+		System.out.println("Employees records added");
+		
+		System.out.println();
 		int k = (int) (repository.count()/3);
 		for(int i=0; i<=k; i++) {
 			Pageable pageable = PageRequest.of(i, 3);
 			
-			System.out.println("Records are: ");
+			System.out.println(" employee records are: ");
 			Iterable<Employee> emp = service.findAll(pageable);
 			
 			for(Employee e: emp) {
@@ -65,13 +61,13 @@ public class Client implements CommandLineRunner{
 			}
 		}
 		
-		System.out.println("Sorted records...");
+		System.out.println("Sorted employee records");
 		Iterable<Employee> emp = service.findAll(Sort.by(Sort.Direction.DESC, "empName"));
 		for(Employee e: emp) {
 			System.out.println(e);
 		}
 		
-		System.out.println("\n****************");
+		System.out.println();
 		
 		
 		System.out.println("Enter the employee id of the employee which has to be deleted.");
@@ -81,7 +77,7 @@ public class Client implements CommandLineRunner{
 		service.removeEmployee(id);
 		logger.info("Employee removed successfully.");
 		
-		logger.info("Let's print the details of an employee");
+		logger.info("print the details of an employee");
 		System.out.println("Enter the emp id of employee which details you want to print.");
 		int id1 = sc.nextInt();
 		EmployeeDTO dto = service.searchEmployee(id1);
@@ -92,7 +88,7 @@ public class Client implements CommandLineRunner{
 				+ "\nBase Location: "+dto.getBaseLocation()
 				+ "\nAddress: "+dto.getAddress());
 		
-		logger.info("Let's update the department of an employee");
+		logger.info("update the department of an employee");
 		System.out.println("Enter the emp id of the employee which department has to be updated.");
 		int id2 = sc.nextInt();
 		System.out.println("Enter the new department allocated");

@@ -19,7 +19,6 @@ public class Employee {
 	//@OneToOne(cascade = CascadeType.ALL)
 	//private Address address;
 	
-	// getters and setters
 	public int getEmpId() {
 		return empId;
 	}
@@ -51,7 +50,6 @@ public class Employee {
 		this.address = address;
 	}
 	
-	// constructors
 	public Employee() {}
 	
 	public Employee(int empId, String empName, String department, String baseLocation, String address) {
@@ -69,13 +67,13 @@ public class Employee {
 	}
 	
 	public static EmployeeDTO prepareEmployeeDTO(Employee e) {
-		EmployeeDTO eDto = new EmployeeDTO();
-		eDto.setEmpId(e.getEmpId());
-		eDto.setEmpName(e.getEmpName());
-		eDto.setDepartment(e.getDepartment());
-		eDto.setBaseLocation(e.getBaseLocation());
-		eDto.setAddress(e.getAddress());
-		return eDto;
+		EmployeeDTO empDto = new EmployeeDTO();
+		empDto.setEmpId(e.getEmpId());
+		empDto.setEmpName(e.getEmpName());
+		empDto.setDepartment(e.getDepartment());
+		empDto.setBaseLocation(e.getBaseLocation());
+		empDto.setAddress(e.getAddress());
+		return empDto;
 	}
 	
 	

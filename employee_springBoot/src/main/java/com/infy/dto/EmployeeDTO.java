@@ -1,6 +1,5 @@
 package com.infy.dto;
 
-//import com.infy.domain.Address;
 import com.infy.domain.Employee;
 
 public class EmployeeDTO {
@@ -11,7 +10,6 @@ public class EmployeeDTO {
 	private String baseLocation;
 	private String address;
 	
-	// getter and setter methods
 	public int getEmpId() {
 		return empId;
 	}
@@ -43,7 +41,6 @@ public class EmployeeDTO {
 		this.address = address;
 	}
 	
-	// constructor
 	public EmployeeDTO() {}
 	
 	public EmployeeDTO(int empId, String empName, String department, String baseLocation, String address) {
