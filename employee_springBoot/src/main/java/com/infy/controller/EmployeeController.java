@@ -29,13 +29,17 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	public List<EmployeeDTO> fetchEmployee(){
-		System.out.println("Sorted employee records");
-		Iterable<Employee> emp = employeeService.findAll(Sort.by(Sort.Direction.DESC, "empName"));
-		for(Employee e: emp) {
-			System.out.println(e);
-		}
+	@GetMapping(produces="application/json")
+	public List<Employee> fetchEmployee(){
+//		System.out.println("Sorted employee records");
+//		Iterable<Employee> emp = employeeService.findAll(Sort.by(Sort.Direction.DESC, "empName"));
+//		for(Employee e: emp) {
+//			System.out.println(e);
+//		}
+		return employeeService.findAll(Sort.by(Sort.Direction.DESC, "empName"));
 	}
+	
+	@PostMapping(consumes="application/json")
 	public ResponseEntity<String> CreateEmployee(@RequestBody EmployeeDTO employeeDTO){
 		
 		String response=employeeService.addEmployee(employeeDTO);
