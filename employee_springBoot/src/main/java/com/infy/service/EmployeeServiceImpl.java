@@ -2,6 +2,7 @@ package com.infy.service;
 
 import java.util.List;
 import java.util.Optional;
+import com.infy.dto.EmployeeDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +23,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	private EmployeeRepository repository;
 
 	@Override
-	public void addEmployee(EmployeeDTO emp) {
+	public String addEmployee(EmployeeDTO emp) {
 		repository.saveAndFlush(EmployeeDTO.prepareEmployeeEntity(emp));
-		
+		return "Customer with "+emp.getEmpId()+" added successfully";
 	}
 
 	@Override
@@ -59,6 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public Page<Employee> findAll(Pageable page) {
 		return repository.findAll(page);
+		
 	}
 
 	@Override
