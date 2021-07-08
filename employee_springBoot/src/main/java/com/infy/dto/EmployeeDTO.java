@@ -1,10 +1,15 @@
 package com.infy.dto;
 
 import com.infy.domain.Employee;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Digits;
+
 
 public class EmployeeDTO {
 
+	@Digits(message="Id should be in digits", fraction = 0, integer = 5)
 	private int empId;
+	@NotNull(message="Name cannot be empty")
 	private String empName;
 	private String department;
 	private String baseLocation;

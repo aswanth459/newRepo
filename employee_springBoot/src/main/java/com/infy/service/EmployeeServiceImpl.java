@@ -3,6 +3,7 @@ package com.infy.service;
 import java.util.List;
 import java.util.Optional;
 import com.infy.dto.EmployeeDTO;
+import com.infy.exception.NoSuchEmployeeException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,45 @@ public class EmployeeServiceImpl implements EmployeeService{
 		repository.saveAndFlush(EmployeeDTO.prepareEmployeeEntity(emp));
 		return "Customer with "+emp.getEmpId()+" added successfully";
 	}
+	
+	
+	@Override
+	public List<Employee> findAll(Sort sort) {
+		return repository.findAll(sort);
+	}
+	
+	
+	@Override
+	public Optional<Employee> findById(int empId){
+		return repository.findById(empId);
+	}
+	
+	@Override
+	public String updateEmployee(int empId, String baseLocation) {
+		Optional<Employee> optional = repository.findById(empId);
+		Employee employee = optional.get();
+		employee.setBaseLocation(baseLocation);
+		repository.save(employee);
+		return "The department for the employee EmpId:"+empId+" has been updated successfully.";
+	}
+	
+	
+	@Override
+	public void removeEmployee(int empId) throws NoSuchEmployeeException {
+		
+		Optional<Employee> employee=repository.findById(empId);
+		Employee emp=employee.orElseThrow(() -> new NoSuchEmployeeException("Employee Not Found"));	
+		repository.deleteById(empId);
+		
+	}
+	
+	
+	@Override
+	public Page<Employee> findAll(Pageable page) {
+		return repository.findAll(page);
+		
+	}
+	
 
 	@Override
 	public EmployeeDTO searchEmployee(int empId) {
@@ -38,35 +78,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Override
 	public List<EmployeeDTO> viewAllEmployee() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void editEmployee(int empId, String newDept) {
-		Optional<Employee> optional = repository.findById(empId);
-		Employee employee = optional.get();
-		employee.setDepartment(newDept);
-		repository.save(employee);
-		System.out.println("The department for the employee (EmpId:"+empId+") has been updated successfully.");
-	}
-
-	@Override
-	public void removeEmployee(int empId) {
-		repository.deleteById(empId);
-		
-	}
 	
-	@Override
-	public Page<Employee> findAll(Pageable page) {
-		return repository.findAll(page);
-		
-	}
 
-	@Override
-	public List<Employee> findAll(Sort sort) {
-		return repository.findAll(sort);
-	}
+	
+	
+	
+
 	
 
 }
