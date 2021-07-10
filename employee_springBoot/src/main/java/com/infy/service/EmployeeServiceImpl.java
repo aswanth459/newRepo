@@ -3,7 +3,7 @@ package com.infy.service;
 import java.util.List;
 import java.util.Optional;
 import com.infy.dto.EmployeeDTO;
-import com.infy.exception.NoSuchEmployeeException;
+import com.infy.exception.EmployeeException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +23,44 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private EmployeeRepository repository;
 
+//	@Override
+//	public String addEmployee(EmployeeDTO emp) {
+//		repository.saveAndFlush(EmployeeDTO.prepareEmployeeEntity(emp));
+//		return "Customer with "+emp.getEmpId()+" added successfully";
+//	}
+//	
+	
 	@Override
-	public String addEmployee(EmployeeDTO emp) {
-		repository.saveAndFlush(EmployeeDTO.prepareEmployeeEntity(emp));
-		return "Customer with "+emp.getEmpId()+" added successfully";
+	public String addEmployee(EmployeeDTO emp) throws EmployeeException {
+		
+		Optional<Employee> employee=repository.findById(emp.getEmpId());
+		if(employee.isEmpty()) {
+			repository.saveAndFlush(EmployeeDTO.prepareEmployeeEntity(emp));
+			return "Customer with "+emp.getEmpId()+" added successfully";
+
+		}
+		else {
+			throw new EmployeeException("Employee Already Exists");
+		}
 	}
+	
+	
+	@Override
+	public String updateEmployee(int empId, String baseLocation) throws EmployeeException {
+		Optional<Employee> employee = repository.findById(empId);
+		if(!(employee.isEmpty())) {
+			Employee emp = employee.get();
+			emp.setBaseLocation(baseLocation);
+			repository.save(emp);
+			return "The department for the employee EmpId:"+empId+" has been updated successfully.";
+		}
+		else {
+			throw new EmployeeException("Employee is not Existed");
+
+		}
+		
+	}
+	
 	
 	
 	@Override
@@ -42,20 +75,21 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	
 	@Override
-	public String updateEmployee(int empId, String baseLocation) {
-		Optional<Employee> optional = repository.findById(empId);
-		Employee employee = optional.get();
-		employee.setBaseLocation(baseLocation);
-		repository.save(employee);
-		return "The department for the employee EmpId:"+empId+" has been updated successfully.";
+	public EmployeeDTO findEmployee(int empId) throws EmployeeException {
+		Optional<Employee> employee=repository.findById(empId);
+		Employee emp=employee.orElseThrow(() -> new EmployeeException("Employee Not Found"));
+		EmployeeDTO employeeDTO=new EmployeeDTO(emp.getEmpId(),emp.getEmpName(),emp.getDepartment(),emp.getBaseLocation(), emp.getAddress());
+		
+		return employeeDTO ;
 	}
 	
 	
+	
 	@Override
-	public void removeEmployee(int empId) throws NoSuchEmployeeException {
+	public void removeEmployee(int empId) throws EmployeeException {
 		
 		Optional<Employee> employee=repository.findById(empId);
-		Employee emp=employee.orElseThrow(() -> new NoSuchEmployeeException("Employee Not Found"));	
+		Employee emp=employee.orElseThrow(() -> new EmployeeException("Employee Not Found"));	
 		repository.deleteById(empId);
 		
 	}

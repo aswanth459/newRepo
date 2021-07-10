@@ -35,7 +35,7 @@ import org.springframework.data.domain.Pageable;
 
 
 import com.infy.dto.EmployeeDTO;
-import com.infy.exception.NoSuchEmployeeException;
+import com.infy.exception.EmployeeException;
 import com.infy.service.EmployeeService;
 
 
@@ -50,63 +50,59 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	//Fetching all employee details 
-	
-	@GetMapping(path="/getEmp",produces="application/json")
-	public List<Employee> fetchEmployee(){
-//		System.out.println("Sorted employee records");
-//		Iterable<Employee> emp = employeeService.findAll(Sort.by(Sort.Direction.DESC, "empName"));
-//		for(Employee e: emp) {
-//			System.out.println(e);
-//		}
-		return employeeService.findAll(Sort.by(Sort.Direction.DESC, "empName"));
-	}
 	
 	
 	// Inserting employee details using @RequestBody
 	
 	@PostMapping(path="/setEmp",consumes="application/json")
-	public ResponseEntity CreateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO, Errors errors){
+	public ResponseEntity CreateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) throws EmployeeException{
 		
-		String response = "";
-		if (errors.hasErrors()) {
 			
-			response = errors.getAllErrors().stream().map(ObjectError::getDefaultMessage)
-					.collect(Collectors.joining(","));
-			ErrorMessage error = new ErrorMessage();
-			error.setErrorCode(HttpStatus.NOT_ACCEPTABLE.value());
-			error.setMessage(response);
-			return ResponseEntity.ok(error);
-		} else {
-			response = employeeService.addEmployee(employeeDTO);
-			return ResponseEntity.ok(response);
+		String response=employeeService.addEmployee(employeeDTO);
+		return new ResponseEntity<>(response,HttpStatus.CREATED);
+	}
+	
+	
+	
+	//getting the employee data using ID, @pathVariable 
+	
+//	@GetMapping(value = "/getId/{id}")
+//	public Optional<Employee> findEmployee(@PathVariable("id") int id){
+//		return employeeService.findById(id);
+//	}
+	
+	@GetMapping(value = "/getId/{empId}")
+	public ResponseEntity<EmployeeDTO> findEmployee(@PathVariable int empId) throws EmployeeException{
+		return new ResponseEntity<>(employeeService.findEmployee(empId),HttpStatus.OK);
+		//return employeeService.findById(id);
+	}
+	
+	
+	//Fetching all employee details 
+	
+		@GetMapping(path="/getEmp",produces="application/json")
+		public List<Employee> fetchEmployee(){
+//			System.out.println("Sorted employee records");
+//			Iterable<Employee> emp = employeeService.findAll(Sort.by(Sort.Direction.DESC, "empName"));
+//			for(Employee e: emp) {
+//				System.out.println(e);
+//			}
+			return employeeService.findAll(Sort.by(Sort.Direction.DESC, "empName"));
 		}
 		
-//		String response=employeeService.addEmployee(employeeDTO);
-//		return ResponseEntity.ok(response);
-	}
-	
-	
-	
-	//getting the employee data using @pathVariable 
-	
-	@GetMapping(value = "/getId/{id}")
-	public Optional<Employee> findEmployee(@PathVariable("id") int id){
-		return employeeService.findById(id);
-	}
-	
 	
 	//Updating employee details using @RequestParam
 	
 	@PutMapping(value="/update")
-	public String updateEmp(@RequestParam("id") int id, @RequestParam("baseLocation") String baseLocation) {
-		return employeeService.updateEmployee(id, baseLocation);
+	public ResponseEntity updateEmp(@RequestParam("id") int id, @RequestParam("baseLocation") String baseLocation) throws EmployeeException {
+		String response= employeeService.updateEmployee(id, baseLocation);
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	
 	//Deleting employee details using @PathVariable
 	
 	@GetMapping(value="/delete/{id}")
-	public String deleteEmp(@PathVariable("id") int id) throws NoSuchEmployeeException {
+	public String deleteEmp(@PathVariable("id") int id) throws EmployeeException {
 		 employeeService.removeEmployee(id);
 		 //return new ResponseEntity(HttpStatus.OK);
 		 return "deleted "+id+ "successfully";

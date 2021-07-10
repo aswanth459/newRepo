@@ -1,4 +1,4 @@
-package com.infy.exception;
+/*package com.infy.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,4 +20,26 @@ public class EmployeeException {
 		error.setMessage(ex.getMessage());
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 	}
+}
+*/
+
+
+package com.infy.exception;
+
+
+
+public class EmployeeException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+	
+	public EmployeeException() {
+		super();
+	}
+	
+	public EmployeeException(String message) {
+		super(message);
+		
+	}
+
+	
 }

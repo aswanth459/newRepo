@@ -9,14 +9,17 @@ import org.springframework.data.domain.Sort;
 
 import com.infy.domain.Employee;
 import com.infy.dto.EmployeeDTO;
-import com.infy.exception.NoSuchEmployeeException;
+import com.infy.exception.EmployeeException;
 
 public interface EmployeeService {
-	public String addEmployee(EmployeeDTO emp);
+	public String addEmployee(EmployeeDTO emp) throws EmployeeException;
+	public String updateEmployee(int empId, String dept) throws EmployeeException;
+	public void removeEmployee(int empId) throws EmployeeException;
+	public EmployeeDTO findEmployee(int empId) throws EmployeeException;
+	
 	public EmployeeDTO searchEmployee(int empId);
 	public List<EmployeeDTO> viewAllEmployee();
-	public String updateEmployee(int empId, String dept);
-	public void removeEmployee(int empId) throws NoSuchEmployeeException;
+
 	//public List<Employee> findEmp(int empId);
 	Page<Employee> findAll(Pageable page);
 	List<Employee> findAll(Sort sort);
