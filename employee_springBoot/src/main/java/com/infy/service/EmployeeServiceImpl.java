@@ -68,6 +68,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return repository.findAll(sort);
 	}
 	
+	@Override
+	public List<EmployeeDTO> fetchEmployee(){
+		return null;
+
+	}
 	
 	@Override
 	public Optional<Employee> findById(int empId){
@@ -76,6 +81,16 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	@Override
 	public EmployeeDTO findEmployee(int empId) throws EmployeeException {
+		Optional<Employee> employee=repository.findById(empId);
+		Employee emp=employee.orElseThrow(() -> new EmployeeException("Employee Not Found"));
+		EmployeeDTO employeeDTO=new EmployeeDTO(emp.getEmpId(),emp.getEmpName(),emp.getDepartment(),emp.getBaseLocation(), emp.getAddress());
+		
+		return employeeDTO ;
+	}
+	
+	
+	@Override
+	public EmployeeDTO findEmployeeV2(int empId) throws EmployeeException {
 		Optional<Employee> employee=repository.findById(empId);
 		Employee emp=employee.orElseThrow(() -> new EmployeeException("Employee Not Found"));
 		EmployeeDTO employeeDTO=new EmployeeDTO(emp.getEmpId(),emp.getEmpName(),emp.getDepartment(),emp.getBaseLocation(), emp.getAddress());

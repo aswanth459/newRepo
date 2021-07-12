@@ -32,13 +32,6 @@ public class LoggerData {
 		logger.info("Report generated at time {}",date);
 	}
 	
-//	@Before("execution(* com.infy.service.EmployeeServiceImpl.getAllEmployees(..))")
-//	public void logBeforeAdvice(JoinPoint joinPoint) {
-//		logger.info("In before advice, JoinPoint signature :{}", joinPoint.getSignature());
-//		long time = System.currentTimeMillis();
-//		String date = DateFormat.getDateInstance().format(time);
-//		logger.info("Report generated at time {}",date);
-//	}
 	
 	@AfterReturning(pointcut="execution(* com.infy.service.EmployeeServiceImpl.getAllEmployees(..))")
 	public void logAfterReturningAdvice(JoinPoint joinPoint) {
@@ -64,14 +57,6 @@ public class LoggerData {
 		String date = DateFormat.getDateInstance().format(time);
 		logger.info("Report generated at time {}",date);
 	}
-	
-//	@Around("execution(* com.infy.service.EmployeeServiceImpl.getAllEmployees(..))")
-//	public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable{
-//		System.out.println("Before proceeding part of the Around Advice.");
-//		Object emp = joinPoint.proceed();
-//		System.out.println("After proceeding part of the Around advice.");
-//		return emp;
-//	}
 	
 	
 	

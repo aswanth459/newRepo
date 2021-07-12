@@ -2,6 +2,8 @@ package com.infy;
 
 import java.util.List;
 import java.util.Scanner;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +29,9 @@ public class Client {
 	public static void main(String[] args) {
 		SpringApplication.run(Client.class, args);
 	}
+	
+
+	
 }
 
 

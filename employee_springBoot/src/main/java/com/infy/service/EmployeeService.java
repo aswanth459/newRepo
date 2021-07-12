@@ -16,7 +16,8 @@ public interface EmployeeService {
 	public String updateEmployee(int empId, String dept) throws EmployeeException;
 	public void removeEmployee(int empId) throws EmployeeException;
 	public EmployeeDTO findEmployee(int empId) throws EmployeeException;
-	
+	public EmployeeDTO findEmployeeV2(int empId) throws EmployeeException;
+	public List<EmployeeDTO> fetchEmployee(); 
 	public EmployeeDTO searchEmployee(int empId);
 	public List<EmployeeDTO> viewAllEmployee();
 
